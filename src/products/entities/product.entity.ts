@@ -1,4 +1,12 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { ProductImage } from './product-image.entity';
 
 @Entity()
 export class Product {
@@ -41,9 +49,15 @@ export class Product {
 
   @Column('text', {
     array: true,
-    default: []
+    default: [],
   })
-  tags: string[]
+  tags: string[];
+
+  @OneToMany(() => ProductImage, (productImage) => productImage.product, {
+    cascade: true,
+    eager: true, // esto es para que me carguen las imagenes relacionadas al momento de buscar un producto por id
+  })
+  images?: ProductImage[];
 
   @BeforeInsert()
   @BeforeUpdate()
