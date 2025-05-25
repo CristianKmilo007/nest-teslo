@@ -2,7 +2,7 @@
 
 services:
   db:
-    image: postgres:latest # o la version postgres:17.5
+    image: postgres:17.5 # o la version postgres:latest
     restart: always
     ports:
       - 5432:5432

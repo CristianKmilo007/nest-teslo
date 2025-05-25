@@ -27,5 +27,5 @@ docker-compose up -d
 
 7. Ejecutar la aplicacion en dev
 ```
-npm i run start:dev
+npm run start:dev
 ```
