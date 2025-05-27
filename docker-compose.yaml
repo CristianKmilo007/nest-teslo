@@ -5,7 +5,7 @@ services:
     image: postgres:17.5 # o la version postgres:latest
     restart: always
     ports:
-      - 5432:5432
+      - 5435:5432
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}

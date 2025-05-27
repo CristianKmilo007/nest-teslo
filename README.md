@@ -25,6 +25,11 @@ npm i -g @nestjs/cli
 docker-compose up -d
 ```
 
+8. Reconstruir base de datos con la semilla
+```
+http://localhost:3100/api/seed
+```
+
 7. Ejecutar la aplicacion en dev
 ```
 npm run start:dev
