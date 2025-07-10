@@ -7,6 +7,8 @@ import { Auth } from 'src/auth/decorators/auth.decorator';
 import { Roles } from 'src/auth/interfaces/roles.interface';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { User } from 'src/auth/entities/user.entity';
+import { ApiResponse } from '@nestjs/swagger';
+import { Product } from './entities';
 
 @Controller('products')
 export class ProductsController {
@@ -14,6 +16,15 @@ export class ProductsController {
 
   @Post()
   @Auth()
+  @ApiResponse({
+    status: 201,
+    description: 'Product created successfully',
+    type: Product,
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request',
+  })
   create(
     @Body() createProductDto: CreateProductDto,
     @GetUser() user: User

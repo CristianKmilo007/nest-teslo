@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { ProductImage } from './product-image.entity';
 import { User } from 'src/auth/entities/user.entity';
+import { ApiProperty } from '@nestjs/swagger';
 
 // Decorador que indica que esta clase es una entidad de base de datos llamada 'products'
 @Entity({
@@ -16,22 +17,42 @@ import { User } from 'src/auth/entities/user.entity';
 })
 export class Product {
   // Llave primaria de tipo UUID para el producto
+  @ApiProperty({
+    example: 'd3b2f8c4-5e1a-4c3b-9f2e-8a1b2c3d4e5f',
+    description: 'Identificador único del producto',
+    uniqueItems: true,
+  })
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   // Título del producto, debe ser único
+  @ApiProperty({
+    example: 'Camiseta Teslo',
+    description: 'Título del producto',
+    uniqueItems: true,
+  })
   @Column('text', {
     unique: true,
   })
   title: string;
 
   // Precio del producto, por defecto 0
+  @ApiProperty({
+    example: 29.99,
+    description: 'Precio del producto',
+    default: 0,
+  })
   @Column('float', {
     default: 0,
   })
   price: number;
 
   // Descripción del producto, puede ser nula
+  @ApiProperty({
+    example: 'Camiseta de alta calidad con diseño exclusivo',
+    description: 'Descripción del producto',
+    required: false,
+  })
   @Column({
     type: 'text',
     nullable: true,
@@ -39,28 +60,54 @@ export class Product {
   description: string;
 
   // Slug único para el producto (usado en URLs)
+  @ApiProperty({
+    example: 'camiseta-teslo',
+    description: 'Slug único del producto, usado en URLs',
+    uniqueItems: true,
+  })
   @Column('text', {
     unique: true,
   })
   slug: string;
 
   // Cantidad en stock, por defecto 0
+  @ApiProperty({
+    example: 100,
+    description: 'Cantidad en stock del producto',
+    default: 0,
+  })
   @Column('int', {
     default: 0,
   })
   stock: number;
 
   // Tallas disponibles para el producto (arreglo de strings)
+  @ApiProperty({
+    example: ['S', 'M', 'L', 'XL'],
+    description: 'Tallas disponibles del producto',
+    type: [String],
+  })
   @Column('text', {
     array: true,
   })
   sizes: string[];
 
   // Género al que va dirigido el producto
+  @ApiProperty({
+    example: 'hombre',
+    description: 'Género del producto (hombre, mujer)',
+    enum: ['hombre', 'mujer'],
+  })
   @Column('text')
   gender: string;
 
   // Etiquetas del producto (arreglo de strings), por defecto vacío
+  @ApiProperty({
+    example: ['camiseta', 'alta calidad', 'exclusivo'],
+    description: 'Etiquetas del producto',
+    type: [String],
+    default: [],
+  })
   @Column('text', {
     array: true,
     default: [],
@@ -70,6 +117,15 @@ export class Product {
   // Relación uno a muchos con las imágenes del producto
   // Al guardar o actualizar un producto, también se guardan/actualizan sus imágenes (cascade)
   // Al consultar un producto, se traen sus imágenes automáticamente (eager)
+  @ApiProperty({
+    example: [
+      'https://example.com/image1.jpg',
+      'https://example.com/image2.jpg',
+    ],
+    description: 'Imágenes del producto',
+    isArray: true,
+    default: [],
+  })
   @OneToMany(() => ProductImage, (productImage) => productImage.product, {
     cascade: true,
     eager: true,
